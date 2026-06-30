@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title th:text="${@environment.getProperty('spring.application.name')}"></title>
+</head>
+<body>
+<p th:text="${@environment.getProperty('spring.application.name')}"></p>
+<table th:each="user : ${users}">
+    <tr>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.email}"></td>
+    </tr>
+</table>
+</body>
+</html>
