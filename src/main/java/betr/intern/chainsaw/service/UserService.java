@@ -4,6 +4,7 @@ import betr.intern.chainsaw.model.User;
 import betr.intern.chainsaw.repository.UserRepository;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +25,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User findByEmail(final String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    public User findByName(final String name) {
-        return userRepository.findByName(name);
+    public List<User> findAllById(final Set<UUID> ids) {
+        return userRepository.findAllById(ids);
     }
 
     @Transactional

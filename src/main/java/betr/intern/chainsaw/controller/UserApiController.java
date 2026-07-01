@@ -44,9 +44,8 @@ public class UserApiController {
     @GetMapping("/stats")
     public Map<String, Integer> getListUserByIdEndpointAccessMap() {
         final Map<UUID, Integer> map = userStatsService.getListUserByIdEndpointAccessMap();
-        return map.entrySet().stream()
-                .collect(Collectors.toMap(
-                        entry -> userService.findById(entry.getKey()).getName(), Map.Entry::getValue));
+        return userService.findAllById(map.keySet()).stream()
+                .collect(Collectors.toMap(User::getName, user -> map.get(user.getId())));
     }
 
     @PutMapping("/stats/reset")
