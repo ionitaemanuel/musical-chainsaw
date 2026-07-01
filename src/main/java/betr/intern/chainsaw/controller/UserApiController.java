@@ -1,5 +1,6 @@
 package betr.intern.chainsaw.controller;
 
+import betr.intern.chainsaw.mapper.UserToDtoMapper;
 import betr.intern.chainsaw.model.User;
 import betr.intern.chainsaw.model.dto.UserRecord;
 import betr.intern.chainsaw.service.UserService;
@@ -14,25 +15,30 @@ import org.springframework.web.bind.annotation.*;
 public class UserApiController {
     private final UserService userService;
     private final UserStatsService userStatsService;
+    private final UserToDtoMapper userToDtoMapper;
 
-    public UserApiController(final UserService userService, final UserStatsService userStatsService) {
+    public UserApiController(
+            final UserService userService,
+            final UserStatsService userStatsService,
+            final UserToDtoMapper userToDtoMapper) {
         this.userService = userService;
         this.userStatsService = userStatsService;
+        this.userToDtoMapper = userToDtoMapper;
     }
 
     @GetMapping("/users")
-    public List<User> listUsers() {
-        return userService.findAll();
+    public List<UserRecord> listUsers() {
+        return userService.findAll().stream().map(userToDtoMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/users/{id}")
-    public User listUserById(@PathVariable(value = "id") final UUID id) {
-        return userService.findById(id);
+    public UserRecord listUserById(@PathVariable(value = "id") final UUID id) {
+        return userToDtoMapper.toDto(userService.findById(id));
     }
 
     @PutMapping("/users/{id}")
-    public User updateUser(@PathVariable(value = "id") final UUID id, @RequestBody final UserRecord body) {
-        return userService.update(new User(body.name(), body.email()), id);
+    public UserRecord updateUser(@PathVariable(value = "id") final UUID id, @RequestBody final UserRecord body) {
+        return userToDtoMapper.toDto(userService.update(new User(body.name(), body.email()), id));
     }
 
     @DeleteMapping("/users/{id}")
