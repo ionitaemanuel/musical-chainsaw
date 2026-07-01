@@ -5,22 +5,18 @@ import betr.intern.chainsaw.repository.UserRepository;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
-    @Autowired
     private final UserRepository userRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public User findById(UUID id) {
+    public User findById(final UUID id) {
         return userRepository.findById(id).orElseGet(() -> null);
     }
 
@@ -28,32 +24,32 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User findByEmail(String email) {
+    public User findByEmail(final String email) {
         return userRepository.findByEmail(email);
     }
 
-    public User findByName(String name) {
+    public User findByName(final String name) {
         return userRepository.findByName(name);
     }
 
     @Transactional
-    public User create(User user) {
+    public User create(final User user) {
         return userRepository.save(user);
     }
 
     @Transactional
-    public User update(User user, UUID id) {
-        var userPersisted = findById(id);
+    public User update(final User user, final UUID id) {
+        final User userPersisted = findById(id);
         if (!Objects.equals(userPersisted.getId(), id)) {
             return userPersisted;
         }
-        BeanUtils.copyProperties(user, userPersisted, "id");
+        final User newUser = User.ofUser(userPersisted.getId(), user);
 
-        return userRepository.save(userPersisted);
+        return userRepository.save(newUser);
     }
 
     @Transactional
-    public void deleteById(UUID id) {
+    public void deleteById(final UUID id) {
         userRepository.deleteById(id);
     }
 }

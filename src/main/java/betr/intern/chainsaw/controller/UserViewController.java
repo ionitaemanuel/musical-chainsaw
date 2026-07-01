@@ -11,12 +11,12 @@ public class UserViewController {
     private final UserService userService;
 
     @Autowired
-    public UserViewController(UserService userService) {
+    public UserViewController(final UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/")
-    public String listUsers(Model model) {
+    public String listUsers(final Model model) {
         model.addAttribute("users", userService.findAll());
         return "index";
     }

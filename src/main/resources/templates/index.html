@@ -2,14 +2,53 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <title th:text="${@environment.getProperty('spring.application.name')}"></title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #333;
+        }
+        h1 {
+            color: #111;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
 <body>
-<p th:text="${@environment.getProperty('spring.application.name')}"></p>
-<table th:each="user : ${users}">
-    <tr>
-        <td th:text="${user.name}"></td>
-        <td th:text="${user.email}"></td>
-    </tr>
-</table>
+    <h1 th:text="${@environment.getProperty('spring.application.name')}"></h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.email}"></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
