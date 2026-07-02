@@ -21,6 +21,10 @@ public class UserService {
         return userRepository.findById(id).orElseGet(() -> null);
     }
 
+    public User findByEmail(final String email) {
+        return userRepository.findByEmail(email);
+    }
+
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -46,7 +50,11 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteById(final UUID id) {
+    public String deleteById(final UUID id) {
+        if (userRepository.existsById(id)) {
+            return String.format("User with id=%s did not exist to begin with", id);
+        }
         userRepository.deleteById(id);
+        return String.format("User with id=%s deleted", id);
     }
 }

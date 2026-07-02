@@ -6,11 +6,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class ChainsawApplication {
 
-    // app will be without security password
     public static void main(final String[] args) {
         SpringApplication.run(ChainsawApplication.class, args);
     }
@@ -20,6 +21,7 @@ public class ChainsawApplication {
         return args -> {
             userService.create(new User("asd", "asd"));
             userService.create(new User("jim", "jim@jim.com"));
+            userService.create(new User("woah", "woah"));
         };
     }
 }
