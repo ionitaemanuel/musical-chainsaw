@@ -2,7 +2,6 @@ package betr.intern.chainsaw.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,14 +41,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
-                .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.DELETE, "/users/**")
-                        .hasRole(RoleEnum.ADMIN.name())
-                        .requestMatchers(HttpMethod.PUT, "/users/**")
-                        .hasRole(RoleEnum.ADMIN.name())
-                        .requestMatchers("/stats")
-                        .permitAll()
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/users/**")
+                        .authenticated()
                         .anyRequest()
-                        .hasAnyRole(RoleEnum.USER.name(), RoleEnum.ADMIN.name()));
+                        .permitAll());
         return http.build();
     }
 }

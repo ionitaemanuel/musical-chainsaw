@@ -12,8 +12,12 @@ Spring security
 6. make /stats publicly available and without any authentication
 
 Scheduled job
-1. Extend your stats counter map to include besides the counter itself also a lastUpdated field, 
-2. which will be a date (Instand/OffsetDateTime)
+1. Extend your stats counter map to include besides the counter itself 
+   also a lastUpdated field, which will be a date (Instand/OffsetDateTime)
 2. Create a new class that will have:
-    1.  a scheduled job that will run every minute and will log in the console output the current stats. make the output formatted that it will say: "user with id=X has been searched for Y times" and a new line for each user id.
-    2.  a second scheduled job that will run every 5 minutes and will search the current track counter and reset/remove the stats for users not being searched for in the past 2 minutes
+    1.  a scheduled job that will run every minute and will log in the console output 
+        the current stats. make the output formatted that it will say:
+        "user with id=X has been searched for Y times" and a new line for each user id.
+    2.  a second scheduled job that will run every 5 minutes and will search 
+        the current track counter and reset/remove the stats for users not being 
+        searched for in the past 2 minutes

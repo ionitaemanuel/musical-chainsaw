@@ -2,6 +2,7 @@ package betr.intern.chainsaw.controller;
 
 import betr.intern.chainsaw.mapper.UserMapper;
 import betr.intern.chainsaw.model.User;
+import betr.intern.chainsaw.model.ViewRecord;
 import betr.intern.chainsaw.model.dto.UserRecord;
 import betr.intern.chainsaw.service.UserService;
 import betr.intern.chainsaw.service.UserStatsService;
@@ -47,13 +48,12 @@ public class UserApiController {
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/users/{id}")
     public String deleteUser(@PathVariable final UUID id) {
-        userService.deleteById(id);
-        return "User with id " + id + " deleted";
+        return userService.deleteById(id);
     }
 
     @GetMapping("/stats")
-    public Map<String, Integer> getListUserByIdEndpointAccessMap() {
-        final Map<UUID, Integer> map = userStatsService.getListUserByIdEndpointAccessMap();
+    public Map<String, ViewRecord> getListUserByIdEndpointAccessMap() {
+        final Map<UUID, ViewRecord> map = userStatsService.getListUserByIdEndpointAccessMap();
         return userService.findAllById(map.keySet()).stream()
                 .collect(Collectors.toMap(User::getName, user -> map.get(user.getId())));
     }
