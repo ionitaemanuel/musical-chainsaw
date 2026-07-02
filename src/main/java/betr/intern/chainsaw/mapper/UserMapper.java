@@ -5,7 +5,7 @@ import betr.intern.chainsaw.model.dto.UserRecord;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface UserToDtoMapper {
+public interface UserMapper {
     UserRecord toDto(User user);
 
     User toEntity(UserRecord record);

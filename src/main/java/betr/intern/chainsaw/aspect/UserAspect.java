@@ -1,8 +1,11 @@
 package betr.intern.chainsaw.aspect;
 
+import betr.intern.chainsaw.model.User;
 import betr.intern.chainsaw.service.UserStatsService;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -29,5 +32,14 @@ public class UserAspect {
         updatedList.merge(id, 1, Integer::sum);
         userStatsService.setListUserByIdEndpointAccessMap(updatedList);
         logger.info("listUserByIdEndpointAccessMap: {}", userStatsService.getListUserByIdEndpointAccessMap());
+    }
+
+    @AfterReturning(
+            pointcut = "execution(* betr.intern.chainsaw.service.UserService.findAll(..))",
+            returning = "result")
+    private void listInternalUserIds(final JoinPoint jp, final List<User> result) {
+        logger.info(
+                "listInternalUserIds({})",
+                result.stream().map(User::getId).map(Object::toString).collect(Collectors.joining(", ")));
     }
 }
