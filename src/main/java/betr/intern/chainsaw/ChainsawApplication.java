@@ -20,6 +20,7 @@ public class ChainsawApplication {
         return args -> {
             userService.create(new User("asd", "asd"));
             userService.create(new User("jim", "jim@jim.com"));
+            userService.create(new User("woah", "woah"));
         };
     }
 }

@@ -1,36 +1,19 @@
-Develop a Spring Boot application that manages a database of users. The application should provide a web interface using Thymeleaf to display user data and offer API endpoints to perform CRUD operations. Additionally, use AOP to track the number of times each user is retrieved by ID.
-1. Project Setup
-   Task: Initialize a new Spring Boot project.
-* Use Spring Initializr to create a new project with dependencies for Spring Web, Spring Data JPA, Thymeleaf, and h2 ( in memory db).
-2. Define the User Entity
-   Task: Create a User entity class.
-* Use @Entity annotation to define a User class with attributes such as id, name, email, etc.
-* Use @Id and @GeneratedValue for the primary key.
-3. Create Repository Layer
-   Task: Develop the UserRepository interface.
-* Use @Repository to annotate the UserRepository interface that extends JpaRepository, enabling CRUD operations on the user data.
-4. Service Layer
-   Task: Implement the UserService class.
-* Use @Service to create a UserService class that will use UserRepository to access and manage user data.
-* Implement methods for CRUD operations.
-5. Controller Layer
-   Task: Build UserControllers for web and API interactions.
-* Create a UserViewController with @Controller for web views using Thymeleaf templates to list users.
-    * GET / - retrieve all users as HTML output
-* Develop a UserApiController with @RestController for CRUD API endpoints returning data in JSON format.
-* you should have 6 endpoints:
-    * GET /users - retrieve all users
-    * GET /users/{id} - retrieve user by id
-    * PUT /users/{id} - update user
-    * DELETE /users/{id} - delete user
-    * GET /stats - retrieve map of user names and how many times have they been looked up
-    * PUT /stats/reset - resets to 0 all stats
-6. Thymeleaf Templates
-   Task: Design Thymeleaf templates for user data presentation.
-* Create HTML templates to display a list of users.
-* there should be a field in the template that can be read from application.yml and passed along to the template engine. (java properties class containing a field title and can be read from app.title)
-7. Implement AOP for Tracking
-   Task: Use AOP to monitor access to the user details.
-* Define an @Aspect component to log and count how many times each 'get user by id' endpoint is accessed.
-* Store counts as a Map (optional, you can store this in a db) and create a separate 'stats' endpoint to display these statistics.
-* the service responsible for keeping track of the user get by id stats should be defined as a Bean in a java configuration
+Spring security/scheduled jobs exercises
+
+
+Spring security
+1. Include spring security in the spring boot.
+2. define an role enum containing 2 roles: USER, ADMIN
+3. create an in memory authentication mechanism with basic auth that contains 3 users:
+    1. two users should have the role USER
+    2. one user should have the role ADMIN
+4. protect create and update user in such that only admins can perform those operations
+5. protect the rest of the endpoints to be users or admin only
+6. make /stats publicly available and without any authentication
+
+Scheduled job
+1. Extend your stats counter map to include besides the counter itself also a lastUpdated field, 
+2. which will be a date (Instand/OffsetDateTime)
+2. Create a new class that will have:
+    1.  a scheduled job that will run every minute and will log in the console output the current stats. make the output formatted that it will say: "user with id=X has been searched for Y times" and a new line for each user id.
+    2.  a second scheduled job that will run every 5 minutes and will search the current track counter and reset/remove the stats for users not being searched for in the past 2 minutes
