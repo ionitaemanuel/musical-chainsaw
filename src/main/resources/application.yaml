@@ -5,7 +5,7 @@ spring:
     graphiql:
       enabled: true
     websocket:
-      path: /stats
+      path: /graphql
   h2:
     console:
       enabled: true

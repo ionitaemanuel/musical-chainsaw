@@ -4,17 +4,22 @@ import betr.intern.chainsaw.generated.controller.rest.UsersApi;
 import betr.intern.chainsaw.generated.model.UserRequest;
 import betr.intern.chainsaw.generated.model.UserResponse;
 import betr.intern.chainsaw.mapper.UserMapper;
+import betr.intern.chainsaw.model.StatsDTO;
 import betr.intern.chainsaw.model.User;
+import betr.intern.chainsaw.model.ViewRecord;
 import betr.intern.chainsaw.service.UserService;
 import betr.intern.chainsaw.service.UserStatsService;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 @RestController
 public class UserController implements UsersApi {
@@ -27,7 +32,7 @@ public class UserController implements UsersApi {
             final UserService userService,
             final UserStatsService userStatsService,
             final UserMapper userMapper,
-            StatsEndpoint statsEndpoint) {
+            final StatsEndpoint statsEndpoint) {
         this.userService = userService;
         this.userStatsService = userStatsService;
         this.userMapper = userMapper;
@@ -48,7 +53,7 @@ public class UserController implements UsersApi {
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity<UserResponse> updateUser(UUID userId, UserRequest userRequest) {
+    public ResponseEntity<UserResponse> updateUser(final UUID userId, final UserRequest userRequest) {
         final User user = userMapper.toEntity(userRequest);
         final User updatedUser = userService.update(user, userId);
         final UserResponse responseBody = userMapper.toResponse(updatedUser);
@@ -59,6 +64,17 @@ public class UserController implements UsersApi {
     @DeleteMapping("/users/{id}")
     public String deleteUser(@PathVariable final UUID id) {
         return userService.deleteById(id);
+    }
+
+    @SubscriptionMapping("stats")
+    public Flux<List<StatsDTO>> getListUserByIdEndpointAccessMap() {
+        return Flux.defer(() -> {
+            final Map<UUID, ViewRecord> map = userStatsService.getListUserByIdEndpointAccessMap();
+            final List<StatsDTO> statsList = userService.findAllById(map.keySet()).stream()
+                    .map(user -> new StatsDTO(user.getName(), map.get(user.getId())))
+                    .collect(Collectors.toList());
+            return Flux.just(statsList);
+        });
     }
 
     @PreAuthorize("hasRole('ADMIN')")

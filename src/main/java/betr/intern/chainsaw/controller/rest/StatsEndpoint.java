@@ -16,6 +16,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 
+@Component
 @ServerEndpoint("/testin-stats")
 public class StatsEndpoint {
     private Session session;
@@ -23,20 +24,20 @@ public class StatsEndpoint {
     private final UserService userService;
     private final UserStatsService userStatsService;
 
-    public StatsEndpoint(UserService userService, UserStatsService userStatsService) {
+    public StatsEndpoint(final UserService userService, final UserStatsService userStatsService) {
         this.userService = userService;
         this.userStatsService = userStatsService;
     }
 
     @OnOpen
-    public void onOpen(Session session) {
+    public void onOpen(final Session session) {
         this.session = session;
         sessions.add(this);
         broadcast("Connected: " + session.getId());
     }
 
     @OnMessage
-    public void onMessage(String message, Session session) {
+    public void onMessage(final String message, final Session session) {
         final Map<UUID, ViewRecord> map = userStatsService.getListUserByIdEndpointAccessMap();
         final Map<String, ViewRecord> asd = userService.findAllById(map.keySet()).stream()
                 .collect(Collectors.toMap(User::getName, user -> map.get(user.getId())));
@@ -44,17 +45,17 @@ public class StatsEndpoint {
     }
 
     @OnClose
-    public void onClose(Session session) {
+    public void onClose(final Session session) {
         sessions.remove(this);
         broadcast("Disconnected: " + session.getId());
     }
 
     @OnError
-    public void onError(Session session, Throwable error) {
+    public void onError(final Session session, final Throwable error) {
         error.printStackTrace();
     }
 
-    private static void broadcast(String message) {
+    private static void broadcast(final String message) {
         sessions.forEach(endpoint -> {
             synchronized (endpoint) {
                 endpoint.session.getAsyncRemote().sendText(message);
@@ -63,19 +64,19 @@ public class StatsEndpoint {
     }
 
     @EventListener
-    public void handleUserViewsUpdated(UserViewsUpdatedEvent event) {
+    public void handleUserViewsUpdated(final UserViewsUpdatedEvent event) {
         try {
-            String jsonPayload = event.getUserViews().toString();
-            TextMessage textMessage = new TextMessage(jsonPayload);
+            final String jsonPayload = event.getUserViews().toString();
+            final TextMessage textMessage = new TextMessage(jsonPayload);
 
             synchronized (sessions) {
-                for (StatsEndpoint endpoint : sessions) {
+                for (final StatsEndpoint endpoint : sessions) {
                     if (endpoint.session.isOpen()) {
                         endpoint.session.getAsyncRemote().sendText(String.valueOf(textMessage));
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             System.err.println("Erorare la trimiterea update-ului prin WebSocket: " + e.getMessage());
         }
     }

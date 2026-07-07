@@ -27,7 +27,7 @@ public class ScheduledJobLogging {
     public void scheduleJobCurrentStats() {
         final Map<UUID, ViewRecord> mapOfIdsAndStats = userStatsService.getListUserByIdEndpointAccessMap();
         mapOfIdsAndStats.forEach((id, stats) -> {
-            logger.info("user with id={} has been searched for {} times\n\n", id, stats.viewCounter());
+            logger.info("user with id={} has been searched for {} times\n\n", id, stats.viewCount());
         });
     }
 

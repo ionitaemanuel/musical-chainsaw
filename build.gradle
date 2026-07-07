@@ -29,6 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.mapstruct:mapstruct:1.6.3'
 	annotationProcessor "org.mapstruct:mapstruct-processor:1.6.3"
+	implementation 'com.graphql-java:graphql-java-extended-scalars:24.0'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3'
 	implementation 'org.openapitools:jackson-databind-nullable:0.2.10'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'

@@ -1,0 +1,25 @@
+type Query {
+    getUserById(id: ID): User
+}
+
+type Subscription {
+    stats: [Stats]
+}
+
+type User {
+    name: String
+    email: String
+}
+
+type Stats {
+    name: String
+    viewRecord:  ViewRecord
+}
+
+type ViewRecord {
+    viewCount: Int
+    lastUpdated: DateTime
+}
+
+scalar DateTime
+    @specifiedBy(url: "https://scalars.graphql.org/andimarek/date-time.html")

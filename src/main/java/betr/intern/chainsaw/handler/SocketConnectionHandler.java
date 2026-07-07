@@ -22,7 +22,7 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
     // This method is executed when client tries to connect
     // to the sockets
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(final WebSocketSession session) throws Exception {
 
         super.afterConnectionEstablished(session);
         // Logging the connection ID with Connected Message
@@ -35,7 +35,7 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
     // When client disconnect from WebSocket then this
     // method is called
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    public void afterConnectionClosed(final WebSocketSession session, final CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);
         System.out.println(session.getId() + " DisConnected");
 
@@ -47,14 +47,14 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
     // It will have a session info who is sending the
     // message Also the Message object passes as parameter
     @Override
-    public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
+    public void handleMessage(final WebSocketSession session, final WebSocketMessage<?> message) throws Exception {
 
         super.handleMessage(session, message);
 
         // Iterate through the list and pass the message to
         // all the sessions Ignore the session in the list
         // which wants to send the message.
-        for (WebSocketSession webSocketSession : webSocketSessions) {
+        for (final WebSocketSession webSocketSession : webSocketSessions) {
             if (session == webSocketSession) continue;
 
             // sendMessage is used to send the message to
@@ -64,19 +64,19 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
     }
 
     @EventListener
-    public void handleUserViewsUpdated(UserViewsUpdatedEvent event) {
+    public void handleUserViewsUpdated(final UserViewsUpdatedEvent event) {
         try {
-            String jsonPayload = event.getUserViews().toString();
-            TextMessage textMessage = new TextMessage(jsonPayload);
+            final String jsonPayload = event.getUserViews().toString();
+            final TextMessage textMessage = new TextMessage(jsonPayload);
 
             synchronized (webSocketSessions) {
-                for (WebSocketSession session : webSocketSessions) {
+                for (final WebSocketSession session : webSocketSessions) {
                     if (session.isOpen()) {
                         session.sendMessage(textMessage);
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             System.err.println("Erorare la trimiterea update-ului prin WebSocket: " + e.getMessage());
         }
     }

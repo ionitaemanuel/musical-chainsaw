@@ -23,7 +23,7 @@ public class UserAspect {
     private final UserStatsService userStatsService;
     private final ApplicationEventPublisher eventPublisher;
 
-    public UserAspect(final UserStatsService userStatsService, ApplicationEventPublisher eventPublisher) {
+    public UserAspect(final UserStatsService userStatsService, final ApplicationEventPublisher eventPublisher) {
         this.userStatsService = userStatsService;
         this.eventPublisher = eventPublisher;
     }
@@ -39,7 +39,7 @@ public class UserAspect {
             if (existingViewRecord == null) {
                 return new ViewRecord(1, OffsetDateTime.now());
             } else {
-                return new ViewRecord(existingViewRecord.viewCounter() + 1, OffsetDateTime.now());
+                return new ViewRecord(existingViewRecord.viewCount() + 1, OffsetDateTime.now());
             }
         });
         userStatsService.setListUserByIdEndpointAccessMap(updatedMap);
