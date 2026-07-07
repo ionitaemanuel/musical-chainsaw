@@ -4,6 +4,7 @@ import betr.intern.chainsaw.model.StatsDTO;
 import betr.intern.chainsaw.model.ViewRecord;
 import betr.intern.chainsaw.model.ViewRecordDTO;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import org.mapstruct.Mapper;
@@ -11,7 +12,8 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface StatsMapper {
-    DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm:ss z", Locale.ENGLISH);
+    DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm:ss", Locale.ENGLISH).withZone(ZoneId.of("UTC"));
 
     @Mapping(target = "viewRecordDTO", source = "record")
     StatsDTO toDTO(String name, ViewRecord record);
