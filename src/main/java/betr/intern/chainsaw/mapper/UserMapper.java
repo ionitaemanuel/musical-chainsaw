@@ -1,12 +1,13 @@
 package betr.intern.chainsaw.mapper;
 
+import betr.intern.chainsaw.generated.model.UserRequest;
+import betr.intern.chainsaw.generated.model.UserResponse;
 import betr.intern.chainsaw.model.User;
-import betr.intern.chainsaw.model.dto.UserRecord;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    UserRecord toDto(User user);
+    UserResponse toResponse(User user);
 
-    User toEntity(UserRecord record);
+    User toEntity(UserRequest request);
 }
