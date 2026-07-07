@@ -4,4 +4,4 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record StatsDTO(
         @JsonProperty("name") String name,
-        @JsonProperty("viewRecord") ViewRecord viewRecord) {}
+        @JsonProperty("viewRecordDTO") ViewRecordDTO viewRecordDTO) {}

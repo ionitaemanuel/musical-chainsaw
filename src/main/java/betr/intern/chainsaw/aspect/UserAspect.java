@@ -1,11 +1,12 @@
 package betr.intern.chainsaw.aspect;
 
-import betr.intern.chainsaw.event.UserViewsUpdatedEvent;
 import betr.intern.chainsaw.model.User;
 import betr.intern.chainsaw.model.ViewRecord;
 import betr.intern.chainsaw.service.UserStatsService;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -22,6 +23,9 @@ import org.springframework.stereotype.Component;
 public class UserAspect {
     private final UserStatsService userStatsService;
     private final ApplicationEventPublisher eventPublisher;
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm:ss z", Locale.ENGLISH);
 
     public UserAspect(final UserStatsService userStatsService, final ApplicationEventPublisher eventPublisher) {
         this.userStatsService = userStatsService;
@@ -44,8 +48,6 @@ public class UserAspect {
         });
         userStatsService.setListUserByIdEndpointAccessMap(updatedMap);
         logger.info("listUserByIdEndpointAccessMap: {}", userStatsService.getListUserByIdEndpointAccessMap());
-        eventPublisher.publishEvent(
-                new UserViewsUpdatedEvent(this, userStatsService.getListUserByIdEndpointAccessMap()));
     }
 
     @AfterReturning(

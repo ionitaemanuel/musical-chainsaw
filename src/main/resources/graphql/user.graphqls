@@ -13,13 +13,10 @@ type User {
 
 type Stats {
     name: String
-    viewRecord:  ViewRecord
+    viewRecordDTO:  ViewRecordDTO
 }
 
-type ViewRecord {
+type ViewRecordDTO {
     viewCount: Int
-    lastUpdated: DateTime
+    lastUpdated: String
 }
-
-scalar DateTime
-    @specifiedBy(url: "https://scalars.graphql.org/andimarek/date-time.html")
