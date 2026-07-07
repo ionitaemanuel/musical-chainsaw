@@ -3,7 +3,6 @@ package betr.intern.chainsaw.controller.rest;
 import betr.intern.chainsaw.generated.model.UserResponse;
 import betr.intern.chainsaw.mapper.StatsMapper;
 import betr.intern.chainsaw.mapper.UserMapper;
-import betr.intern.chainsaw.mapper.ViewRecordMapper;
 import betr.intern.chainsaw.model.StatsDTO;
 import betr.intern.chainsaw.model.ViewRecord;
 import betr.intern.chainsaw.service.UserService;
@@ -26,19 +25,16 @@ public class UserController {
     private final UserStatsService userStatsService;
     private final UserMapper userMapper;
     private final StatsMapper statsMapper;
-    private final ViewRecordMapper viewRecordMapper;
 
     public UserController(
             final UserService userService,
             final UserStatsService userStatsService,
             final UserMapper userMapper,
-            StatsMapper statsMapper,
-            ViewRecordMapper viewRecordMapper) {
+            StatsMapper statsMapper) {
         this.userService = userService;
         this.userStatsService = userStatsService;
         this.userMapper = userMapper;
         this.statsMapper = statsMapper;
-        this.viewRecordMapper = viewRecordMapper;
     }
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
@@ -64,7 +60,7 @@ public class UserController {
         return Flux.defer(() -> {
             final Map<UUID, ViewRecord> map = userStatsService.getListUserByIdEndpointAccessMap();
             final List<StatsDTO> statsList = userService.findAllById(map.keySet()).stream()
-                    .map(user -> statsMapper.toDTO(user.getName(), viewRecordMapper.toDTO(map.get(user.getId()))))
+                    .map(user -> statsMapper.toDTO(user.getName(), map.get(user.getId())))
                     .collect(Collectors.toList());
             return Flux.just(statsList);
         });
