@@ -1,6 +1,6 @@
 package betr.intern.chainsaw.service;
 
-import betr.intern.chainsaw.model.ViewRecord;
+import betr.intern.chainsaw.model.domain.ViewRecord;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;

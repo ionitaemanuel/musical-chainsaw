@@ -1,4 +1,4 @@
-package betr.intern.chainsaw.model;
+package betr.intern.chainsaw.model.domain;
 
 import java.time.OffsetDateTime;
 

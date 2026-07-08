@@ -1,8 +1,8 @@
 package betr.intern.chainsaw.mapper;
 
-import betr.intern.chainsaw.model.StatsDTO;
-import betr.intern.chainsaw.model.ViewRecord;
-import betr.intern.chainsaw.model.ViewRecordDTO;
+import betr.intern.chainsaw.model.domain.ViewRecord;
+import betr.intern.chainsaw.model.dto.StatsDTO;
+import betr.intern.chainsaw.model.dto.ViewRecordDTO;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;

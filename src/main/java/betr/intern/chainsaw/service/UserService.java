@@ -1,6 +1,6 @@
 package betr.intern.chainsaw.service;
 
-import betr.intern.chainsaw.model.User;
+import betr.intern.chainsaw.model.domain.User;
 import betr.intern.chainsaw.repository.UserRepository;
 import java.util.List;
 import java.util.Objects;
@@ -51,7 +51,7 @@ public class UserService {
 
     @Transactional
     public String deleteById(final UUID id) {
-        if (userRepository.existsById(id)) {
+        if (!userRepository.existsById(id)) {
             return String.format("User with id=%s did not exist to begin with", id);
         }
         userRepository.deleteById(id);

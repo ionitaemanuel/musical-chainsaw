@@ -1,10 +1,10 @@
-package betr.intern.chainsaw.controller.rest;
+package betr.intern.chainsaw.controller;
 
 import betr.intern.chainsaw.generated.model.UserResponse;
 import betr.intern.chainsaw.mapper.StatsMapper;
 import betr.intern.chainsaw.mapper.UserMapper;
-import betr.intern.chainsaw.model.StatsDTO;
-import betr.intern.chainsaw.model.ViewRecord;
+import betr.intern.chainsaw.model.domain.ViewRecord;
+import betr.intern.chainsaw.model.dto.StatsDTO;
 import betr.intern.chainsaw.service.UserService;
 import betr.intern.chainsaw.service.UserStatsService;
 import java.util.List;

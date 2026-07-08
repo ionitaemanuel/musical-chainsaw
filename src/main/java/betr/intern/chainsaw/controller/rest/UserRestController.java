@@ -4,7 +4,7 @@ import betr.intern.chainsaw.generated.controller.rest.UsersApi;
 import betr.intern.chainsaw.generated.model.UserRequest;
 import betr.intern.chainsaw.generated.model.UserResponse;
 import betr.intern.chainsaw.mapper.UserMapper;
-import betr.intern.chainsaw.model.User;
+import betr.intern.chainsaw.model.domain.User;
 import betr.intern.chainsaw.service.UserService;
 import java.util.UUID;
 import org.springframework.http.ResponseEntity;

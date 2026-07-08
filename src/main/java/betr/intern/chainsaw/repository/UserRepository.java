@@ -1,6 +1,6 @@
 package betr.intern.chainsaw.repository;
 
-import betr.intern.chainsaw.model.User;
+import betr.intern.chainsaw.model.domain.User;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
