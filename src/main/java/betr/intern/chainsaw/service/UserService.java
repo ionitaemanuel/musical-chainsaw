@@ -1,7 +1,7 @@
 package betr.intern.chainsaw.service;
 
 import betr.intern.chainsaw.model.domain.User;
-import betr.intern.chainsaw.repository.UserMongoRepository;
+import betr.intern.chainsaw.repository.UserRepository;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
-    private final UserMongoRepository userRepository;
+    private final UserRepository userRepository;
 
-    public UserService(final UserMongoRepository userRepository) {
+    public UserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
