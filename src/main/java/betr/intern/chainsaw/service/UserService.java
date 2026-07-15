@@ -1,7 +1,7 @@
 package betr.intern.chainsaw.service;
 
 import betr.intern.chainsaw.model.domain.User;
-import betr.intern.chainsaw.repository.UserRepository;
+import betr.intern.chainsaw.repository.UserMongoRepository;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+    private final UserMongoRepository userRepository;
 
-    public UserService(final UserRepository userRepository) {
+    public UserService(final UserMongoRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -44,7 +44,7 @@ public class UserService {
         if (!Objects.equals(userPersisted.getId(), id)) {
             return userPersisted;
         }
-        final User newUser = User.ofUser(userPersisted.getId(), user);
+        final User newUser = User.ofUser(UUID.fromString(userPersisted.getId()), user);
 
         return userRepository.save(newUser);
     }

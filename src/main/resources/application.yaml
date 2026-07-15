@@ -19,3 +19,8 @@ spring:
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: intern-db

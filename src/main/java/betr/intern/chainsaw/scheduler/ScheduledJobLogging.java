@@ -1,7 +1,6 @@
 package betr.intern.chainsaw.scheduler;
 
 import betr.intern.chainsaw.model.domain.ViewRecord;
-import betr.intern.chainsaw.service.UserService;
 import betr.intern.chainsaw.service.UserStatsService;
 import java.time.OffsetDateTime;
 import java.util.*;
