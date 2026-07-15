@@ -1,5 +1,8 @@
 package betr.intern.chainsaw;
 
+import betr.intern.chainsaw.model.domain.User;
+import betr.intern.chainsaw.service.UserService;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
