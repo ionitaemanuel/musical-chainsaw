@@ -1,9 +1,9 @@
 package betr.intern.chainsaw.model.domain;
 
-import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -12,10 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column
+    @Field
     private String name;
 
     @Field
