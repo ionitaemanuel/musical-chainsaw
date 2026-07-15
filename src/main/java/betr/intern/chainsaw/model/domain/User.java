@@ -1,21 +1,29 @@
 package betr.intern.chainsaw.model.domain;
 
-import jakarta.persistence.*;
-import java.util.UUID;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import org.hibernate.annotations.Audited;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "users")
+@Document(collection = "users")
+@Audited
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
 
-    @Column
     private String name;
 
-    @Column(unique = true)
     private String email;
+
+    @CreatedDate
+    private OffsetDateTime createdDate;
+
+    @LastModifiedDate
+    private Instant lastModifiedDate;
 
     public User() {}
 
@@ -24,17 +32,17 @@ public class User {
         this.email = email;
     }
 
-    public User(final UUID id, final String name, final String email) {
+    public User(final String id, final String name, final String email) {
         this.id = id;
         this.name = name;
         this.email = email;
     }
 
-    public static User ofUser(final UUID id, final User user) {
+    public static User ofUser(final String id, final User user) {
         return new User(id, user.getName(), user.getEmail());
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 

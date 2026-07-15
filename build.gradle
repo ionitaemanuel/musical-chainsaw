@@ -27,12 +27,18 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-graphql'
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	implementation 'org.springframework.boot:spring-boot-starter-mongodb'
+	// implementation 'org.springframework.boot:spring-boot-starter-liquibase'
 	implementation 'org.mapstruct:mapstruct:1.6.3'
 	annotationProcessor "org.mapstruct:mapstruct-processor:1.6.3"
 	implementation 'com.graphql-java:graphql-java-extended-scalars:24.0'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3'
 	implementation 'org.openapitools:jackson-databind-nullable:0.2.10'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	implementation 'org.mongodb:mongodb-driver-sync:5.9.0'
+	implementation 'org.liquibase:liquibase-core:5.0.3'
+	implementation 'org.liquibase.ext:liquibase-mongodb:5.0.3'
 	runtimeOnly 'com.h2database:h2'
 	compileOnly 'jakarta.websocket:jakarta.websocket-api:2.2.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-websocket-test'
@@ -41,6 +47,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-thymeleaf-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-graphql-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-data-mongodb-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-mongodb-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-liquibase-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

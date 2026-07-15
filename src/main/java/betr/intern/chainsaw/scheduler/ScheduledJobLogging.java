@@ -1,7 +1,6 @@
 package betr.intern.chainsaw.scheduler;
 
 import betr.intern.chainsaw.model.domain.ViewRecord;
-import betr.intern.chainsaw.service.UserService;
 import betr.intern.chainsaw.service.UserStatsService;
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -23,7 +22,7 @@ public class ScheduledJobLogging {
 
     @Scheduled(fixedRate = 1, timeUnit = TimeUnit.MINUTES)
     public void scheduleJobCurrentStats() {
-        final Map<UUID, ViewRecord> mapOfIdsAndStats = userStatsService.getListUserByIdEndpointAccessMap();
+        final Map<String, ViewRecord> mapOfIdsAndStats = userStatsService.getListUserByIdEndpointAccessMap();
         mapOfIdsAndStats.forEach((id, stats) -> {
             logger.info("user with id={} has been searched for {} times\n\n", id, stats.viewCount());
         });
@@ -31,7 +30,7 @@ public class ScheduledJobLogging {
 
     @Scheduled(fixedRate = 5, timeUnit = TimeUnit.MINUTES)
     public void scheduleJobFilterStats() {
-        final Map<UUID, ViewRecord> filteredMap =
+        final Map<String, ViewRecord> filteredMap =
                 userStatsService.getListUserByIdEndpointAccessMap().entrySet().stream()
                         .filter(entry -> entry.getValue()
                                 .lastUpdated()

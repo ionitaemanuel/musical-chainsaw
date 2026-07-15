@@ -1,11 +1,8 @@
 package betr.intern.chainsaw.repository;
 
 import betr.intern.chainsaw.model.domain.User;
-import java.util.UUID;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, UUID> {
+public interface UserRepository extends MongoRepository<User, String> {
     User findByEmail(String email);
 }

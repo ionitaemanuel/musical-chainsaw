@@ -1,0 +1,17 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "migrate",
+        "author": "yaboi",
+        "changes": [
+          {
+            "customChange": {
+              "class": "betr.intern.chainsaw.migration.UpdateUserStaffStatusChange"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

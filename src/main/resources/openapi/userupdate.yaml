@@ -16,7 +16,6 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid
       requestBody:
         description: User details that need to be updated
         required: true

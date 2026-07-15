@@ -6,7 +6,6 @@ import betr.intern.chainsaw.service.UserStatsService;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -29,8 +28,8 @@ public class UserAspect {
     @AfterReturning("execution(* betr.intern.chainsaw.controller.UserController.getUserById(..))")
     private void listUserByIdMethod(final JoinPoint jp) {
         final Object[] args = jp.getArgs();
-        final UUID id = (UUID) args[0];
-        final Map<UUID, ViewRecord> updatedMap = userStatsService.getListUserByIdEndpointAccessMap();
+        final String id = (String) args[0];
+        final Map<String, ViewRecord> updatedMap = userStatsService.getListUserByIdEndpointAccessMap();
         updatedMap.compute(id, (key, existingViewRecord) -> {
             if (existingViewRecord == null) {
                 return new ViewRecord(1, OffsetDateTime.now());
