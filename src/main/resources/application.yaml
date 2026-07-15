@@ -1,6 +1,11 @@
 spring:
   application:
     name: chainsaw
+  graphql:
+    graphiql:
+      enabled: true
+    websocket:
+      path: /graphql
   h2:
     console:
       enabled: true

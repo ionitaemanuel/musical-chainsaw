@@ -1,7 +1,7 @@
 package betr.intern.chainsaw.aspect;
 
-import betr.intern.chainsaw.model.User;
-import betr.intern.chainsaw.model.ViewRecord;
+import betr.intern.chainsaw.model.domain.User;
+import betr.intern.chainsaw.model.domain.ViewRecord;
 import betr.intern.chainsaw.service.UserStatsService;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -26,19 +26,19 @@ public class UserAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(UserAspect.class);
 
-    @AfterReturning("execution(* betr.intern.chainsaw.controller.UserApiController.listUserById(..))")
+    @AfterReturning("execution(* betr.intern.chainsaw.controller.UserController.getUserById(..))")
     private void listUserByIdMethod(final JoinPoint jp) {
         final Object[] args = jp.getArgs();
         final UUID id = (UUID) args[0];
-        final Map<UUID, ViewRecord> updatedList = userStatsService.getListUserByIdEndpointAccessMap();
-        updatedList.compute(id, (key, existingViewRecord) -> {
+        final Map<UUID, ViewRecord> updatedMap = userStatsService.getListUserByIdEndpointAccessMap();
+        updatedMap.compute(id, (key, existingViewRecord) -> {
             if (existingViewRecord == null) {
                 return new ViewRecord(1, OffsetDateTime.now());
             } else {
-                return new ViewRecord(existingViewRecord.viewCounter() + 1, OffsetDateTime.now());
+                return new ViewRecord(existingViewRecord.viewCount() + 1, OffsetDateTime.now());
             }
         });
-        userStatsService.setListUserByIdEndpointAccessMap(updatedList);
+        userStatsService.setListUserByIdEndpointAccessMap(updatedMap);
         logger.info("listUserByIdEndpointAccessMap: {}", userStatsService.getListUserByIdEndpointAccessMap());
     }
 

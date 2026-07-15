@@ -1,0 +1,75 @@
+package betr.intern.chainsaw.controller;
+
+import betr.intern.chainsaw.generated.model.UserResponse;
+import betr.intern.chainsaw.mapper.StatsMapper;
+import betr.intern.chainsaw.mapper.UserMapper;
+import betr.intern.chainsaw.model.domain.ViewRecord;
+import betr.intern.chainsaw.model.dto.StatsDTO;
+import betr.intern.chainsaw.service.UserService;
+import betr.intern.chainsaw.service.UserStatsService;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+
+@Controller
+public class UserController {
+    private final UserService userService;
+    private final UserStatsService userStatsService;
+    private final UserMapper userMapper;
+    private final StatsMapper statsMapper;
+
+    public UserController(
+            final UserService userService,
+            final UserStatsService userStatsService,
+            final UserMapper userMapper,
+            StatsMapper statsMapper) {
+        this.userService = userService;
+        this.userStatsService = userStatsService;
+        this.userMapper = userMapper;
+        this.statsMapper = statsMapper;
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @GetMapping("/users")
+    public List<UserResponse> listUsers() {
+        return userService.findAll().stream().map(userMapper::toResponse).collect(Collectors.toList());
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @QueryMapping
+    public UserResponse getUserById(@Argument final UUID id) {
+        return userMapper.toResponse(userService.findById(id));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/users/{id}")
+    public String deleteUser(@PathVariable final UUID id) {
+        return userService.deleteById(id);
+    }
+
+    @SubscriptionMapping("stats")
+    public Flux<List<StatsDTO>> getListUserByIdEndpointAccessMap() {
+        return Flux.defer(() -> {
+            final Map<UUID, ViewRecord> map = userStatsService.getListUserByIdEndpointAccessMap();
+            final List<StatsDTO> statsList = userService.findAllById(map.keySet()).stream()
+                    .map(user -> statsMapper.toDTO(user.getName(), map.get(user.getId())))
+                    .collect(Collectors.toList());
+            return Flux.just(statsList);
+        });
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/stats/reset")
+    public String resetListUserByIdEndpointAccessMap() {
+        userStatsService.resetListUserByIdEndpointAccessMap();
+        return "Stats reset";
+    }
+}

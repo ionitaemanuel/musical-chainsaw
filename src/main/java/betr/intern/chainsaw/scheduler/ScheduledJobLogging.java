@@ -1,6 +1,6 @@
 package betr.intern.chainsaw.scheduler;
 
-import betr.intern.chainsaw.model.ViewRecord;
+import betr.intern.chainsaw.model.domain.ViewRecord;
 import betr.intern.chainsaw.service.UserService;
 import betr.intern.chainsaw.service.UserStatsService;
 import java.time.OffsetDateTime;
@@ -15,11 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScheduledJobLogging {
     private static final Logger logger = LoggerFactory.getLogger(ScheduledJobLogging.class);
-    private final UserService userService;
     private final UserStatsService userStatsService;
 
-    public ScheduledJobLogging(final UserService userService, final UserStatsService userStatsService) {
-        this.userService = userService;
+    public ScheduledJobLogging(final UserStatsService userStatsService) {
         this.userStatsService = userStatsService;
     }
 
@@ -27,7 +25,7 @@ public class ScheduledJobLogging {
     public void scheduleJobCurrentStats() {
         final Map<UUID, ViewRecord> mapOfIdsAndStats = userStatsService.getListUserByIdEndpointAccessMap();
         mapOfIdsAndStats.forEach((id, stats) -> {
-            logger.info("user with id={} has been searched for {} times\n\n", id, stats.viewCounter());
+            logger.info("user with id={} has been searched for {} times\n\n", id, stats.viewCount());
         });
     }
 
