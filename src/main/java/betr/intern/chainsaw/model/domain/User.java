@@ -1,27 +1,26 @@
 package betr.intern.chainsaw.model.domain;
 
 import java.time.Instant;
-import java.util.UUID;
+import java.time.OffsetDateTime;
+import org.hibernate.annotations.Audited;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "users")
+@Audited
 public class User {
 
     @Id
     private String id;
 
-    @Field
     private String name;
 
-    @Field
     private String email;
 
     @CreatedDate
-    private Instant createdDate;
+    private OffsetDateTime createdDate;
 
     @LastModifiedDate
     private Instant lastModifiedDate;
@@ -39,8 +38,8 @@ public class User {
         this.email = email;
     }
 
-    public static User ofUser(final UUID id, final User user) {
-        return new User(id.toString(), user.getName(), user.getEmail());
+    public static User ofUser(final String id, final User user) {
+        return new User(id, user.getName(), user.getEmail());
     }
 
     public String getId() {

@@ -5,7 +5,6 @@ import betr.intern.chainsaw.repository.UserMongoRepository;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +16,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User findById(final UUID id) {
+    public User findById(final String id) {
         return userRepository.findById(id).orElseGet(() -> null);
     }
 
@@ -29,7 +28,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public List<User> findAllById(final Set<UUID> ids) {
+    public List<User> findAllById(final Set<String> ids) {
         return userRepository.findAllById(ids);
     }
 
@@ -39,18 +38,18 @@ public class UserService {
     }
 
     @Transactional
-    public User update(final User user, final UUID id) {
+    public User update(final User user, final String id) {
         final User userPersisted = findById(id);
         if (!Objects.equals(userPersisted.getId(), id)) {
             return userPersisted;
         }
-        final User newUser = User.ofUser(UUID.fromString(userPersisted.getId()), user);
+        final User newUser = User.ofUser(userPersisted.getId(), user);
 
         return userRepository.save(newUser);
     }
 
     @Transactional
-    public String deleteById(final UUID id) {
+    public String deleteById(final String id) {
         if (!userRepository.existsById(id)) {
             return String.format("User with id=%s did not exist to begin with", id);
         }

@@ -1,0 +1,18 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "insert_user",
+        "author": "yaboi",
+        "changes": [
+          {
+            "insertMany": {
+              "collectionName": "users",
+              "documents": "[{\"name\":\"Madhura\",\"email\":\"madhura@pitchtech.com\",\"createdDate\":{\"$date\":\"2026-07-15T12:00:00Z\"}},{\"name\":\"Josh\",\"email\":\"josh@example.com\",\"createdDate\":{\"$date\":\"2026-07-15T12:00:00Z\"}},{\"name\":\"Olga\",\"email\":\"olga@example.com\",\"createdDate\":{\"$date\":\"2026-07-15T12:00:00Z\"}},{\"name\":\"Alex\",\"email\":\"alex@example.com\",\"createdDate\":{\"$date\":\"2026-07-15T12:00:00Z\"}},{\"name\":\"Elena\",\"email\":\"elena@example.com\",\"createdDate\":{\"$date\":\"2026-07-15T12:00:00Z\"}},{\"name\":\"Carlos\",\"email\":\"carlos@example.com\",\"createdDate\":{\"$date\":\"2026-07-15T12:00:00Z\"}},{\"name\":\"Yuki\",\"email\":\"yuki@example.com\",\"createdDate\":{\"$date\":\"2026-07-15T12:00:00Z\"}},{\"name\":\"Amara\",\"email\":\"amara@example.com\",\"createdDate\":{\"$date\":\"2026-07-15T12:00:00Z\"}},{\"name\":\"Liam\",\"email\":\"liam@example.com\",\"createdDate\":{\"$date\":\"2026-07-15T12:00:00Z\"}},{\"name\":\"Sofia\",\"email\":\"sofia@example.com\",\"createdDate\":{\"$date\":\"2026-07-15T12:00:00Z\"}}]"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

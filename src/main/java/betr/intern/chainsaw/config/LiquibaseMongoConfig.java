@@ -5,10 +5,17 @@ import liquibase.exception.DatabaseException;
 import liquibase.ext.mongodb.database.MongoLiquibaseDatabase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 @Configuration
+@EnableMongoAuditing
 public class LiquibaseMongoConfig {
-    public final String url = "mongodb://localhost:27017/test";
+    private final Environment environment;
+
+    public LiquibaseMongoConfig(Environment environment) {
+        this.environment = environment;
+    }
 
     @Bean
     public MongoLiquibaseRunner liquibaseRunner(final MongoLiquibaseDatabase database) {
@@ -21,6 +28,7 @@ public class LiquibaseMongoConfig {
      */
     @Bean
     public MongoLiquibaseDatabase database() throws DatabaseException {
-        return (MongoLiquibaseDatabase) DatabaseFactory.getInstance().openDatabase(url, null, null, null, null);
+        return (MongoLiquibaseDatabase) DatabaseFactory.getInstance()
+                .openDatabase(environment.getProperty("spring.data.mongodb.uri"), null, null, null, null);
     }
 }

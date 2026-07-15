@@ -9,7 +9,6 @@ import betr.intern.chainsaw.service.UserService;
 import betr.intern.chainsaw.service.UserStatsService;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -45,20 +44,20 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @QueryMapping
-    public UserResponse getUserById(@Argument final UUID id) {
+    public UserResponse getUserById(@Argument final String id) {
         return userMapper.toResponse(userService.findById(id));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/users/{id}")
-    public String deleteUser(@PathVariable final UUID id) {
+    public String deleteUser(@PathVariable final String id) {
         return userService.deleteById(id);
     }
 
     @SubscriptionMapping("stats")
     public Flux<List<StatsDTO>> getListUserByIdEndpointAccessMap() {
         return Flux.defer(() -> {
-            final Map<UUID, ViewRecord> map = userStatsService.getListUserByIdEndpointAccessMap();
+            final Map<String, ViewRecord> map = userStatsService.getListUserByIdEndpointAccessMap();
             final List<StatsDTO> statsList = userService.findAllById(map.keySet()).stream()
                     .map(user -> statsMapper.toDTO(user.getName(), map.get(user.getId())))
                     .collect(Collectors.toList());

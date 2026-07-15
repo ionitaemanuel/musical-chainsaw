@@ -1,0 +1,18 @@
+{
+  "databaseChangeLog": [
+    {
+      "include": {
+        "file": "initialData.json",
+        "relativeToChangelogFile": true,
+        "context": "data"
+      }
+    },
+    {
+      "include": {
+        "file": "isStaffMigration.json",
+        "relativeToChangelogFile": true,
+        "context": "migration"
+      }
+    }
+  ]
+}
