@@ -1,6 +1,7 @@
 package betr.intern.chainsaw.factory;
 
 import betr.intern.chainsaw.model.domain.DomainEvent;
+import betr.intern.chainsaw.model.domain.EventType;
 import betr.intern.chainsaw.repository.EventProcessor;
 import betr.intern.chainsaw.repository.NotificationEventProcessor;
 import betr.intern.chainsaw.repository.PaymentEventProcessor;
@@ -9,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class EventProcessorFactory {
-    private static final Map<Class<? extends DomainEvent>, EventProcessor> processorMap = new HashMap<>();
+    private static final Map<EventType, EventProcessor> processorMap = new HashMap<>();
 
     private EventProcessorFactory() {
         throw new AssertionError();
@@ -19,11 +20,11 @@ public class EventProcessorFactory {
         NotificationEventProcessor notificationProcessor = new NotificationEventProcessor();
         PaymentEventProcessor paymentProcessor = new PaymentEventProcessor();
 
-        processorMap.put(notificationProcessor.getSupportedEventClass(), notificationProcessor);
-        processorMap.put(paymentProcessor.getSupportedEventClass(), paymentProcessor);
+        processorMap.put(EventType.NOTIFICATION, notificationProcessor);
+        processorMap.put(EventType.PAYMENT, paymentProcessor);
     }
 
-    public static <T extends DomainEvent> EventProcessor createEventProcessor(Class<T> eventClass) {
-        return Objects.requireNonNull(processorMap.get(eventClass));
+    public static <T extends DomainEvent> EventProcessor createEventProcessor(EventType type) {
+        return Objects.requireNonNull(processorMap.get(type));
     }
 }

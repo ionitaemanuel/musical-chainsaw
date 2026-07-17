@@ -9,5 +9,4 @@ public interface EventProcessor {
 
     void process(DomainEvent event);
 
-    Class<? extends DomainEvent> getSupportedEventClass();
 }

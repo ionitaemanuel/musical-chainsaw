@@ -1,7 +1,6 @@
 package betr.intern.chainsaw.repository;
 
 import betr.intern.chainsaw.model.domain.DomainEvent;
-import betr.intern.chainsaw.model.domain.PaymentEvent;
 
 public class PaymentEventProcessor implements EventProcessor {
 
@@ -11,8 +10,4 @@ public class PaymentEventProcessor implements EventProcessor {
         logger.info(event.toString());
     }
 
-    @Override
-    public Class<PaymentEvent> getSupportedEventClass() {
-        return PaymentEvent.class;
-    }
 }

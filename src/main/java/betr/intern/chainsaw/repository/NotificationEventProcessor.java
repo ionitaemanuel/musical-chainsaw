@@ -1,7 +1,6 @@
 package betr.intern.chainsaw.repository;
 
 import betr.intern.chainsaw.model.domain.DomainEvent;
-import betr.intern.chainsaw.model.domain.NotificationEvent;
 
 public class NotificationEventProcessor implements EventProcessor {
 
@@ -11,8 +10,4 @@ public class NotificationEventProcessor implements EventProcessor {
         logger.info(event.toString());
     }
 
-    @Override
-    public Class<NotificationEvent> getSupportedEventClass() {
-        return NotificationEvent.class;
-    }
 }
