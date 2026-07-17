@@ -68,12 +68,12 @@ spotless {
 }
 
 openApiValidate {
-	inputSpec = "$projectDir/src/main/resources/openapi/userupdate.yaml"
+	inputSpec = "$projectDir/src/main/resources/openapi/schema.yaml"
 }
 
 openApiGenerate {
 	generatorName = "spring"
-	inputSpec = "$projectDir/src/main/resources/openapi/userupdate.yaml".toString()
+	inputSpec = "$projectDir/src/main/resources/openapi/schema.yaml".toString()
 	outputDir = layout.buildDirectory.dir('openapi').get().toString()
 	apiPackage = "betr.intern.chainsaw.generated.controller.rest"
 	modelPackage = "betr.intern.chainsaw.generated.model"
