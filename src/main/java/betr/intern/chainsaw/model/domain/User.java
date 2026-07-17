@@ -1,7 +1,6 @@
 package betr.intern.chainsaw.model.domain;
 
 import java.time.Instant;
-import java.time.OffsetDateTime;
 import org.hibernate.annotations.Audited;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -20,7 +19,7 @@ public class User {
     private String email;
 
     @CreatedDate
-    private OffsetDateTime createdDate;
+    private Instant createdDate;
 
     @LastModifiedDate
     private Instant lastModifiedDate;
