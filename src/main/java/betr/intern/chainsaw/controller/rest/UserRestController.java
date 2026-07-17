@@ -15,7 +15,7 @@ public class UserRestController implements UsersApi {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    public UserRestController(UserService userService, UserMapper userMapper) {
+    public UserRestController(final UserService userService, final UserMapper userMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
     }

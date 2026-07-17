@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 public class LiquibaseMongoConfig {
     private final Environment environment;
 
-    public LiquibaseMongoConfig(Environment environment) {
+    public LiquibaseMongoConfig(final Environment environment) {
         this.environment = environment;
     }
 

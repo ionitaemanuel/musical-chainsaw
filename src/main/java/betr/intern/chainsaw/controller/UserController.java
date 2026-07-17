@@ -29,7 +29,7 @@ public class UserController {
             final UserService userService,
             final UserStatsService userStatsService,
             final UserMapper userMapper,
-            StatsMapper statsMapper) {
+            final StatsMapper statsMapper) {
         this.userService = userService;
         this.userStatsService = userStatsService;
         this.userMapper = userMapper;

@@ -21,7 +21,7 @@ public interface StatsMapper {
     @Mapping(target = "lastUpdated", expression = "java(mapLastUpdated(record.lastUpdated()))")
     ViewRecordDTO toDTO(ViewRecord record);
 
-    default String mapLastUpdated(OffsetDateTime lastUpdated) {
+    default String mapLastUpdated(final OffsetDateTime lastUpdated) {
         return lastUpdated.format(DATE_TIME_FORMATTER);
     }
 }
