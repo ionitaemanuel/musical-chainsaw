@@ -30,13 +30,11 @@ public class UserAspect {
         final Object[] args = jp.getArgs();
         final String id = (String) args[0];
         final Map<String, ViewRecord> updatedMap = userStatsService.getListUserByIdEndpointAccessMap();
-        updatedMap.compute(id, (key, existingViewRecord) -> {
-            if (existingViewRecord == null) {
-                return new ViewRecord(1, OffsetDateTime.now());
-            } else {
-                return new ViewRecord(existingViewRecord.viewCount() + 1, OffsetDateTime.now());
-            }
-        });
+
+        updatedMap.merge(id, new ViewRecord(1, OffsetDateTime.now()), (existingViewRecord, newViewRecord) ->
+                new ViewRecord(existingViewRecord.viewCount() + 1, OffsetDateTime.now())
+        );
+
         userStatsService.setListUserByIdEndpointAccessMap(updatedMap);
         logger.info("listUserByIdEndpointAccessMap: {}", userStatsService.getListUserByIdEndpointAccessMap());
     }
