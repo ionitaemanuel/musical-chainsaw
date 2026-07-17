@@ -6,8 +6,6 @@ public class NotificationEventProcessor implements EventProcessor {
 
     @Override
     public void process(DomainEvent event) {
-        System.out.println("uuh sigma");
-        logger.info(event.toString());
+        System.out.println(event.toString());
     }
-
 }

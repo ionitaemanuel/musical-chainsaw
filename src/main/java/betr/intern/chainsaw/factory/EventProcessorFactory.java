@@ -1,6 +1,5 @@
 package betr.intern.chainsaw.factory;
 
-import betr.intern.chainsaw.model.domain.DomainEvent;
 import betr.intern.chainsaw.model.domain.EventType;
 import betr.intern.chainsaw.repository.EventProcessor;
 import betr.intern.chainsaw.repository.NotificationEventProcessor;
@@ -24,7 +23,7 @@ public class EventProcessorFactory {
         processorMap.put(EventType.PAYMENT, paymentProcessor);
     }
 
-    public static <T extends DomainEvent> EventProcessor createEventProcessor(EventType type) {
+    public static EventProcessor createEventProcessor(EventType type) {
         return Objects.requireNonNull(processorMap.get(type));
     }
 }

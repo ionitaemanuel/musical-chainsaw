@@ -1,13 +1,8 @@
 package betr.intern.chainsaw.model.domain;
 
-public class NotificationEvent implements DomainEvent {
-    private final String recipient;
-    private final String messageBody;
-    private final String channelType;
-    private final int sigmaCounter;
-    private final int omegaCounter;
-    private final int alphaCounter;
-
+public record NotificationEvent(
+        String recipient, String messageBody, String channelType, int sigmaCounter, int omegaCounter, int alphaCounter)
+        implements DomainEvent {
     public static class Builder {
         private final String recipient;
         private final String messageBody;
@@ -36,18 +31,19 @@ public class NotificationEvent implements DomainEvent {
             alphaCounter = val;
             return this;
         }
+    }
 
-        public NotificationEvent build() {
-            return new NotificationEvent(this);
-        }
+    public static NotificationEvent builder(Builder builder) {
+        return new NotificationEvent(builder);
     }
 
     private NotificationEvent(Builder builder) {
-        recipient = builder.recipient;
-        messageBody = builder.messageBody;
-        channelType = builder.channelType;
-        sigmaCounter = builder.sigmaCounter;
-        omegaCounter = builder.omegaCounter;
-        alphaCounter = builder.alphaCounter;
+        this(
+                builder.recipient,
+                builder.messageBody,
+                builder.channelType,
+                builder.sigmaCounter,
+                builder.omegaCounter,
+                builder.alphaCounter);
     }
 }

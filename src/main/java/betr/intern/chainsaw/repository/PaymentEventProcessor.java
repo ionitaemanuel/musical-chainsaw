@@ -6,8 +6,6 @@ public class PaymentEventProcessor implements EventProcessor {
 
     @Override
     public void process(DomainEvent event) {
-        System.out.println("bruuh mocva");
-        logger.info(event.toString());
+        System.out.println(event.toString());
     }
-
 }

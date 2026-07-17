@@ -1,12 +1,13 @@
 package betr.intern.chainsaw.model.domain;
 
-public class PaymentEvent implements DomainEvent {
-    private final String transactionId;
-    private final String userId;
-    private final int amount;
-    private final String paymentMethod;
-    private final String robloxDefinition;
-    private final String robuxAstounder;
+public record PaymentEvent(
+        String transactionId,
+        String userId,
+        int amount,
+        String paymentMethod,
+        String robloxDefinition,
+        String robuxAstounder)
+        implements DomainEvent {
 
     public static class Builder {
         private final String transactionId;
@@ -33,18 +34,19 @@ public class PaymentEvent implements DomainEvent {
             this.robuxAstounder = robuxAstounder;
             return this;
         }
+    }
 
-        public PaymentEvent build() {
-            return new PaymentEvent(this);
-        }
+    public static PaymentEvent builder(Builder builder) {
+        return new PaymentEvent(builder);
     }
 
     private PaymentEvent(Builder builder) {
-        transactionId = builder.transactionId;
-        userId = builder.userId;
-        amount = builder.amount;
-        paymentMethod = builder.paymentMethod;
-        robloxDefinition = builder.robloxDefinition;
-        robuxAstounder = builder.robuxAstounder;
+        this(
+                builder.transactionId,
+                builder.userId,
+                builder.amount,
+                builder.paymentMethod,
+                builder.robloxDefinition,
+                builder.robuxAstounder);
     }
 }

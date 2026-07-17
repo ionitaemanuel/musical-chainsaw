@@ -6,13 +6,9 @@ import betr.intern.chainsaw.generated.model.NotificationEventRequest;
 import betr.intern.chainsaw.generated.model.PaymentEventRequest;
 import betr.intern.chainsaw.mapper.EventMapper;
 import betr.intern.chainsaw.model.domain.EventType;
-import betr.intern.chainsaw.model.domain.NotificationEvent;
-import betr.intern.chainsaw.model.domain.PaymentEvent;
 import betr.intern.chainsaw.repository.EventProcessor;
-import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.NativeWebRequest;
 
 @RestController
 public class EventRestController implements EventsApi {
