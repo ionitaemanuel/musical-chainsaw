@@ -31,11 +31,12 @@ public record NotificationEvent(
             alphaCounter = val;
             return this;
         }
+
+        public NotificationEvent build() {
+            return new NotificationEvent(this);
+        }
     }
 
-    public static NotificationEvent builder(Builder builder) {
-        return new NotificationEvent(builder);
-    }
 
     private NotificationEvent(Builder builder) {
         this(

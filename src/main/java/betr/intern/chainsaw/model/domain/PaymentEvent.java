@@ -34,11 +34,12 @@ public record PaymentEvent(
             this.robuxAstounder = robuxAstounder;
             return this;
         }
+
+        public PaymentEvent build() {
+            return new PaymentEvent(this);
+        }
     }
 
-    public static PaymentEvent builder(Builder builder) {
-        return new PaymentEvent(builder);
-    }
 
     private PaymentEvent(Builder builder) {
         this(
