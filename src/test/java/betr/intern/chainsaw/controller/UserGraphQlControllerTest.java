@@ -1,5 +1,6 @@
 package betr.intern.chainsaw.controller;
 
+import betr.intern.chainsaw.generated.model.UserResponse;
 import betr.intern.chainsaw.model.domain.User;
 import betr.intern.chainsaw.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -48,19 +49,16 @@ public class UserGraphQlControllerTest {
     void testGetUserById_GraphQLQuery_Success() {
         userRepository.save(new User("456", "GraphQL User", "graphql@gmail.com"));
 
-        graphQlTester
+        final var response = graphQlTester
                 .documentName("get-user")
                 .execute()
-                .path("getUserById.name")
-                .entity(String.class)
-                .isEqualTo("GraphQL User");
+                .path("getUserById")
+                .entity(UserResponse.class)
+                .get();
 
-        graphQlTester
-                .documentName("get-user")
-                .execute()
-                .path("getUserById.email")
-                .entity(String.class)
-                .isEqualTo("graphql@gmail.com");
+        assertThat(response).isNotNull();
+        assertThat(response.getName()).isEqualTo("GraphQL User");
+        assertThat(response.getEmail()).isEqualTo("graphql@gmail.com");
     }
 
     @Test
