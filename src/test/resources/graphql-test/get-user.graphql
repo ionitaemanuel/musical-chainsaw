@@ -1,0 +1,6 @@
+query {
+    getUserById(id: "456") {
+        name
+        email
+    }
+}

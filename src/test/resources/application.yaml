@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: chainsaw
+  graphql:
+    graphiql:
+      enabled: true
+    websocket:
+      path: /graphql
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: test
+      uri: mongodb://localhost:27017/test
+  liquibase:
+    change-log: classpath:db/master.json

@@ -1,0 +1,22 @@
+type Query {
+    getUserById(id: ID): User
+}
+
+type Subscription {
+    stats: [Stats]
+}
+
+type User {
+    name: String
+    email: String
+}
+
+type Stats {
+    name: String
+    viewRecordDTO:  ViewRecordDTO
+}
+
+type ViewRecordDTO {
+    viewCount: Int
+    lastUpdated: String
+}
