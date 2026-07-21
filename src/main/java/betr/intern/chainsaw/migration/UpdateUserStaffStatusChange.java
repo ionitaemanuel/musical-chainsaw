@@ -23,30 +23,30 @@ public class UpdateUserStaffStatusChange implements CustomTaskChange, Applicatio
     private static ApplicationContext context;
 
     @Override
-    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(@NonNull final ApplicationContext applicationContext) throws BeansException {
         context = applicationContext;
     }
 
     @Override
-    public void execute(Database database) throws CustomChangeException {
+    public void execute(final Database database) throws CustomChangeException {
         try {
-            MongoTemplate mongoTemplate = context.getBean(MongoTemplate.class);
+            final MongoTemplate mongoTemplate = context.getBean(MongoTemplate.class);
 
-            Query pitchTechQuery = new Query(Criteria.where("email").regex("@pitchtech\\.com$", "i"));
-            Update setStaffTrue = new Update().set("isStaff", true);
+            final Query pitchTechQuery = new Query(Criteria.where("email").regex("@pitchtech\\.com$", "i"));
+            final Update setStaffTrue = new Update().set("isStaff", true);
 
-            UpdateResult resultTrue = mongoTemplate.updateMulti(pitchTechQuery, setStaffTrue, "users");
+            final UpdateResult resultTrue = mongoTemplate.updateMulti(pitchTechQuery, setStaffTrue, "users");
 
-            Query othersQuery = new Query(Criteria.where("email").not().regex("@pitchtech\\.com$", "i"));
-            Update setStaffFalse = new Update().set("isStaff", false);
+            final Query othersQuery = new Query(Criteria.where("email").not().regex("@pitchtech\\.com$", "i"));
+            final Update setStaffFalse = new Update().set("isStaff", false);
 
-            UpdateResult resultFalse = mongoTemplate.updateMulti(othersQuery, setStaffFalse, "users");
+            final UpdateResult resultFalse = mongoTemplate.updateMulti(othersQuery, setStaffFalse, "users");
 
             System.out.println(String.format(
                     "updated %d staff and %d regular users.",
                     resultTrue.getModifiedCount(), resultFalse.getModifiedCount()));
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new CustomChangeException("w h y", e);
         }
     }
@@ -60,10 +60,10 @@ public class UpdateUserStaffStatusChange implements CustomTaskChange, Applicatio
     public void setUp() throws SetupException {}
 
     @Override
-    public ValidationErrors validate(Database database) {
+    public ValidationErrors validate(final Database database) {
         return null;
     }
 
     @Override
-    public void setFileOpener(ResourceAccessor resourceAccessor) {}
+    public void setFileOpener(final ResourceAccessor resourceAccessor) {}
 }

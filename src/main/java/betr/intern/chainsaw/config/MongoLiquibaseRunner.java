@@ -17,12 +17,13 @@ public class MongoLiquibaseRunner implements CommandLineRunner, ResourceLoaderAw
         this.resourceLoader = resourceLoader;
     }
 
-    public MongoLiquibaseRunner(MongoLiquibaseDatabase database) {
+    public MongoLiquibaseRunner(final MongoLiquibaseDatabase database) {
         this.database = database;
     }
 
     public void run(final String... args) throws Exception {
-        Liquibase liquiBase = new Liquibase("db/master.json", new SpringResourceAccessor(resourceLoader), database);
+        final Liquibase liquiBase =
+                new Liquibase("db/master.json", new SpringResourceAccessor(resourceLoader), database);
         liquiBase.update("");
     }
 }
