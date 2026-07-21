@@ -1,0 +1,9 @@
+subscription Stats {
+    stats {
+        name
+        viewRecordDTO {
+            viewCount
+            lastUpdated
+        }
+    }
+}

@@ -1,6 +1,6 @@
 package betr.intern.chainsaw.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import betr.intern.chainsaw.model.domain.User;
@@ -41,8 +41,8 @@ class UserServiceTest {
 
         User result = userService.findById(userId);
 
-        assertNotNull(result);
-        assertEquals(userId, result.getId());
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo(userId);
         verify(userRepository, times(1)).findById(userId);
     }
 
@@ -52,7 +52,7 @@ class UserServiceTest {
 
         User result = userService.findById(userId);
 
-        assertNull(result);
+        assertThat(result).isNull();
         verify(userRepository, times(1)).findById(userId);
     }
 
@@ -62,8 +62,8 @@ class UserServiceTest {
 
         List<User> result = userService.findAll();
 
-        assertFalse(result.isEmpty());
-        assertEquals(1, result.size());
+        assertThat(result).isNotEmpty();
+        assertThat(result).hasSize(1);
         verify(userRepository, times(1)).findAll();
     }
 
@@ -74,8 +74,8 @@ class UserServiceTest {
 
         List<User> result = userService.findAllById(ids);
 
-        assertFalse(result.isEmpty());
-        assertEquals(1, result.size());
+        assertThat(result).isNotEmpty();
+        assertThat(result).hasSize(1);
         verify(userRepository, times(1)).findAllById(ids);
     }
 
@@ -85,8 +85,8 @@ class UserServiceTest {
 
         User result = userService.create(new User("John Doe", email));
 
-        assertNotNull(result);
-        assertEquals(userId, result.getId());
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo(userId);
         verify(userRepository, times(1)).save(any(User.class));
     }
 
@@ -99,10 +99,10 @@ class UserServiceTest {
 
         User result = userService.update(updatedInfo, userId);
 
-        assertNotNull(result);
-        assertEquals(userId, result.getId());
-        assertEquals("Updated Name", result.getName());
-        assertEquals("updated@example.com", result.getEmail());
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo(userId);
+        assertThat(result.getName()).isEqualTo("Updated Name");
+        assertThat(result.getEmail()).isEqualTo("updated@example.com");
         verify(userRepository, times(1)).save(any(User.class));
     }
 
@@ -113,7 +113,7 @@ class UserServiceTest {
 
         User result = userService.update(sampleUser, userId);
 
-        assertEquals(corruptedUser, result);
+        assertThat(result).isEqualTo(corruptedUser);
         verify(userRepository, never()).save(any(User.class));
     }
 
@@ -124,7 +124,7 @@ class UserServiceTest {
 
         String result = userService.deleteById(userId);
 
-        assertEquals(String.format("User with id=%s deleted", userId), result);
+        assertThat(result).isEqualTo(String.format("User with id=%s deleted", userId));
         verify(userRepository, times(1)).deleteById(userId);
     }
 
@@ -134,7 +134,7 @@ class UserServiceTest {
 
         String result = userService.deleteById(userId);
 
-        assertEquals(String.format("User with id=%s did not exist to begin with", userId), result);
+        assertThat(result).isEqualTo(String.format("User with id=%s did not exist to begin with", userId));
         verify(userRepository, never()).deleteById(userId);
     }
 }

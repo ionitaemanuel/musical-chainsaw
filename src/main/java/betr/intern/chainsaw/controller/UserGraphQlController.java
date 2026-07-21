@@ -26,10 +26,10 @@ public class UserGraphQlController {
     private final StatsMapper statsMapper;
 
     public UserGraphQlController(
-            UserService userService,
-            UserStatsService userStatsService,
-            UserMapper userMapper,
-            StatsMapper statsMapper) {
+            final UserService userService,
+            final UserStatsService userStatsService,
+            final UserMapper userMapper,
+            final StatsMapper statsMapper) {
         this.userService = userService;
         this.userStatsService = userStatsService;
         this.userMapper = userMapper;
