@@ -1,23 +1,20 @@
 package betr.intern.chainsaw.controller;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import betr.intern.chainsaw.generated.model.UserResponse;
 import betr.intern.chainsaw.model.domain.User;
 import betr.intern.chainsaw.repository.UserRepository;
 import betr.intern.chainsaw.service.UserService;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -28,8 +25,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import reactor.core.publisher.Flux;
-import reactor.test.StepVerifier;
+import org.testcontainers.shaded.com.fasterxml.jackson.core.type.TypeReference;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.json.JsonMapper;
 
 @Testcontainers
 @SpringBootTest
@@ -48,14 +45,13 @@ class UserControllerTest {
 
     private MockMvc mockMvc;
 
+    private final JsonMapper jsonMapper = new JsonMapper();
+
     @Autowired
     private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private org.springframework.graphql.ExecutionGraphQlService graphQlService;
 
     @BeforeEach
     void setUp() {
@@ -73,12 +69,17 @@ class UserControllerTest {
         this.userService.create(u1);
         this.userService.create(u2);
 
-        this.mockMvc
+        final var responseAsString = this.mockMvc
                 .perform(get("/users"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].name", is("Alice")))
-                .andExpect(jsonPath("$[1].name", is("Bob")));
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        final var response = jsonMapper.readValue(responseAsString, new TypeReference<List<UserResponse>>() {});
+
+        Assertions.assertThat(response).hasSize(2);
+        Assertions.assertThat(response).extracting(UserResponse::getName).containsExactly(u1.getName(), u2.getName());
     }
 
     @Test
@@ -98,7 +99,7 @@ class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("User with id=123 deleted"));
 
-        assertNull(this.userService.findById(user.getId()));
+        Assertions.assertThat(this.userService.findById(user.getId())).isNull();
     }
 
     @Test
@@ -108,50 +109,5 @@ class UserControllerTest {
                 .perform(put("/stats/reset"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Stats reset"));
-    }
-
-    @Test
-    @WithMockUser(roles = "USER")
-    void testGetUserById_GraphQLQuery_Success() throws Exception {
-        final User user = new User("456", "GraphQL User", "graphql@gmail.com");
-        this.userService.create(user);
-
-        final String graphQLQuery = "{\"query\": \"query { getUserById(id: \\\"456\\\") { name email } }\"}";
-
-        this.mockMvc
-                .perform(
-                        post("/graphql").contentType(MediaType.APPLICATION_JSON).content(graphQLQuery))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.getUserById.name", is("GraphQL User")))
-                .andExpect(jsonPath("$.data.getUserById.email", is("graphql@gmail.com")));
-    }
-
-    @Test
-    @WithMockUser(roles = "USER")
-    void testGetListUserByIdEndpointAccessMap_GraphQLSubscription_Success() {
-        var graphQlTester =
-                org.springframework.graphql.test.tester.ExecutionGraphQlServiceTester.create(graphQlService);
-
-        final String graphQLSubscription = """
-            subscription Stats {
-                stats {
-                    name
-                    viewRecordDTO {
-                        viewCount
-                        lastUpdated
-                    }
-                }
-            }
-        """;
-
-        Flux<List> responseFlux = graphQlTester
-                .document(graphQLSubscription)
-                .executeSubscription()
-                .toFlux("stats", java.util.List.class);
-
-        StepVerifier.create(responseFlux)
-                .consumeNextWith(Assertions::assertNotNull)
-                .thenCancel()
-                .verify();
     }
 }

@@ -11,20 +11,19 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith({SpringExtension.class, MockitoExtension.class})
+@ExtendWith(MockitoExtension.class)
 @Import({UserService.class, UserRepository.class})
 class UserServiceTest {
 
-    @MockitoBean
+    @Mock
     private UserRepository userRepository;
 
-    @Autowired
+    @InjectMocks
     private UserService userService;
 
     private User sampleUser;
