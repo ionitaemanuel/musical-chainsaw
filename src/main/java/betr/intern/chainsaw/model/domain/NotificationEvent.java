@@ -37,7 +37,6 @@ public record NotificationEvent(
         }
     }
 
-
     private NotificationEvent(Builder builder) {
         this(
                 builder.recipient,

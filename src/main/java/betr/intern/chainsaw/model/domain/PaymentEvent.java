@@ -40,7 +40,6 @@ public record PaymentEvent(
         }
     }
 
-
     private PaymentEvent(Builder builder) {
         this(
                 builder.transactionId,
