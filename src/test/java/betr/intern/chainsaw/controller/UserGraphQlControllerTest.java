@@ -1,5 +1,7 @@
 package betr.intern.chainsaw.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import betr.intern.chainsaw.generated.model.UserResponse;
 import betr.intern.chainsaw.model.domain.User;
 import betr.intern.chainsaw.repository.UserRepository;
@@ -17,8 +19,6 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.core.publisher.Flux;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
 @SpringBootTest

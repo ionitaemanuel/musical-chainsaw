@@ -1,11 +1,7 @@
 package betr.intern.chainsaw.repository;
 
-import betr.intern.chainsaw.model.domain.DomainEvent;
+import betr.intern.chainsaw.model.domain.NotificationEvent;
 
-public class NotificationEventProcessor implements EventProcessor {
-
-    @Override
-    public void process(DomainEvent event) {
-        System.out.println(event.toString());
-    }
+public interface NotificationEventProcessor extends EventProcessor {
+    void process(NotificationEvent event);
 }

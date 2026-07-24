@@ -163,6 +163,7 @@ components:
           type: string
         channelType:
           type: string
+          enum: [EMAIL, SMS]
         sigmaCounter:
           type: integer
           format: int32
