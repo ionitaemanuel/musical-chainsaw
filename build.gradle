@@ -4,6 +4,7 @@ plugins {
 	id "org.openapi.generator" version "7.23.0"
 	id 'io.spring.dependency-management' version '1.1.7'
 	id("com.diffplug.spotless") version "8.7.0"
+	id("eu.eventloopsoftware.avro-gradle-plugin") version "0.1.2"
 }
 
 group = 'betr.intern'
@@ -17,6 +18,7 @@ java {
 
 repositories {
 	mavenCentral()
+	maven { url 'https://packages.confluent.io/maven/' }
 }
 
 dependencies {
@@ -29,7 +31,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-mongodb'
-	// implementation 'org.springframework.boot:spring-boot-starter-liquibase'
+	implementation "org.springframework.boot:spring-boot-starter-kafka"
 	implementation 'org.mapstruct:mapstruct:1.6.3'
 	annotationProcessor "org.mapstruct:mapstruct-processor:1.6.3"
 	implementation 'com.graphql-java:graphql-java-extended-scalars:24.0'
@@ -39,6 +41,9 @@ dependencies {
 	implementation 'org.mongodb:mongodb-driver-sync:5.9.0'
 	implementation 'org.liquibase:liquibase-core:5.0.3'
 	implementation 'org.liquibase.ext:liquibase-mongodb:5.0.3'
+	implementation 'org.apache.avro:avro:1.12.1'
+	implementation 'org.springframework.kafka:spring-kafka:4.1.0'
+	implementation 'io.confluent:kafka-avro-serializer:8.3.0'
 	runtimeOnly 'com.h2database:h2'
 	compileOnly 'jakarta.websocket:jakarta.websocket-api:2.2.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-websocket-test'
@@ -97,3 +102,9 @@ sourceSets {
 }
 
 compileJava.dependsOn(tasks.openApiGenerate)
+compileJava.dependsOn(tasks.avroGenerateJavaClasses)
+
+avro {
+	sourceDirectory = "src/main/resources/avro"
+	outputDirectory = "generated"
+}

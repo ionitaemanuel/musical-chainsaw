@@ -1,7 +1,6 @@
 package betr.intern.chainsaw.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -11,9 +10,6 @@ import betr.intern.chainsaw.model.domain.User;
 import betr.intern.chainsaw.repository.UserRepository;
 import betr.intern.chainsaw.service.UserService;
 import java.util.List;
-import java.util.UUID;
-
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

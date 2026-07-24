@@ -1,0 +1,23 @@
+{
+  "type": "record",
+  "name": "NotificationEvent",
+  "namespace": "betr.intern.chainsaw.model.domain",
+  "fields": [
+    { "name": "recipient", "type": "string" },
+    { "name": "messageBody", "type": "string" },
+    {
+      "name": "channelType",
+      "type": {
+        "type": "enum",
+        "name": "ChannelType",
+        "symbols": [
+          "EMAIL",
+          "SMS"
+        ]
+      }
+    },
+    { "name": "sigmaCounter", "type": ["null", "int"], "default": null },
+    { "name": "omegaCounter", "type": ["null", "int"], "default": null },
+    { "name": "alphaCounter", "type": ["null", "int"], "default": null }
+  ]
+}
